@@ -1,0 +1,61 @@
+﻿<phone:PhoneApplicationPage
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:maps="clr-namespace:Microsoft.Phone.Maps.Controls;assembly=Microsoft.Phone.Maps"
+    xmlns:toolkitmap="clr-namespace:Microsoft.Phone.Maps.Toolkit;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:Controls="clr-namespace:Microsoft.Phone.Maps.Controls;assembly=Microsoft.Phone.Maps"
+    
+    x:Class="WhereIsMyCar.SaveCar"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    shell:SystemTray.IsVisible="True"
+    DataContext="{Binding SaveCarVM, Source={StaticResource Locator}}"
+    >
+
+    <!-- Application bar -->
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBarIconButton IconUri="/Assets/Icons/plus.png"   Text="Zoom" Click="Zoom_click" />
+            <shell:ApplicationBarIconButton IconUri="/Assets/Icons/minus.png" Text="Dé-zoom" Click="Dezoom_click"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+
+    <!--LayoutRoot est la grille racine où tout le contenu de la page est placé-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!--ContentPanel - placez tout contenu supplémentaire ici-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <Grid.Background>
+                <ImageBrush ImageSource="/Assets/background.png" Stretch="UniformToFill" />
+            </Grid.Background>
+            <StackPanel>
+                <TextBlock Text="{Binding TitleApp}"  Foreground="#ff800000" Style="{StaticResource PhoneTextTitle2Style}" Margin="10,6,0,10"/>
+            </StackPanel>
+
+            <Controls:Map x:Name="Carte" ZoomLevel="15" BorderBrush="Black" HorizontalAlignment="Center" Margin="10,57,10,0" VerticalAlignment="Top" RenderTransformOrigin="-0.358,-0.359" Height="543" Width="436">
+                <toolkitmap:MapExtensions.Children>
+                    <toolkitmap:UserLocationMarker x:Name="UserLocationMarker" GeoCoordinate="{Binding UserCurrentPosition}" />
+                    <toolkitmap:Pushpin x:Name="PushpinCar" Visibility="{Binding PushpinVisibility}" GeoCoordinate="{Binding CarPosition}" Content="{Binding Car.Name}" />
+                </toolkitmap:MapExtensions.Children>
+            </Controls:Map>
+            <Button Content="{Binding ButtonSaveCarContent}" Command="{Binding SaveTheCarCommand}"  Foreground="#ff800000" BorderBrush="#ff800000"  VerticalAlignment="Center" Margin="0,605,10,10" Height="81"/>
+        </Grid>
+
+    </Grid>
+
+</phone:PhoneApplicationPage>
+    
+    
